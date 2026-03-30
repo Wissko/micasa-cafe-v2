@@ -311,7 +311,7 @@ export default function Home() {
           </FadeUp>
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(2, 1fr)',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
             gap: '0',
           }}>
             {highlights.map((item, i) => (
@@ -335,22 +335,31 @@ export default function Home() {
                       onMouseLeave={e => ((e.target as HTMLImageElement).style.transform = 'scale(1)')}
                     />
                   </div>
-                  <div style={{ padding: '1.5rem 1.75rem 2rem' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '0.5rem' }}>
+                  <div style={{ padding: '1.25rem 1.5rem 1.75rem' }}>
+                    <div style={{
+                      display: 'flex',
+                      flexWrap: 'wrap',
+                      justifyContent: 'space-between',
+                      alignItems: 'baseline',
+                      gap: '0.25rem 1rem',
+                      marginBottom: '0.5rem',
+                    }}>
                       <h3 style={{
                         fontFamily: 'Playfair Display, serif',
                         fontStyle: 'italic',
                         fontWeight: 400,
-                        fontSize: '1.25rem',
+                        fontSize: 'clamp(1rem, 3vw, 1.25rem)',
                         color: '#0a0a0a',
+                        flexShrink: 0,
                       }}>
                         {item.name}
                       </h3>
                       <span style={{
                         fontFamily: 'Work Sans, sans-serif',
-                        fontWeight: 400,
+                        fontWeight: 500,
                         fontSize: '0.9rem',
                         color: 'var(--caramel)',
+                        flexShrink: 0,
                       }}>
                         {item.price}
                       </span>
