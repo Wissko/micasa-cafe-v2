@@ -1,283 +1,376 @@
-import SVGMaskReveal from '@/components/SVGMaskReveal'
-import FadeUp from '@/components/FadeUp'
+'use client'
+import Image from 'next/image'
 import Link from 'next/link'
+import FadeUp from '@/components/FadeUp'
 
-const menuSections = [
-  {
-    title: 'Breakfast & Brunch',
-    img: '/images/IMG_5787.jpeg',
-    items: [
-      { name: 'Mi Casa Big Breakfast', desc: 'Eggs your way, halal beef sausage, roasted tomato, mushroom, sourdough', price: '$24' },
-      { name: 'Shakshuka Royale', desc: 'Slow-braised tomato, harissa, poached eggs, labne, sourdough', price: '$22' },
-      { name: 'Avocado & Labneh Toast', desc: 'Smashed avo, whipped labneh, dukkah, chilli oil, seed cracker', price: '$20' },
-      { name: 'Acai Power Bowl', desc: 'Blended acai, banana, granola, seasonal fruit, honey', price: '$18' },
-      { name: 'French Toast', desc: 'Brioche, mascarpone, berry compote, maple syrup', price: '$19' },
-      { name: 'Halloumi Wrap', desc: 'Grilled halloumi, roasted capsicum, greens, tahini, wrap', price: '$18' },
-    ],
-  },
-  {
-    title: 'Lunch',
-    img: '/images/IMG_5793.jpeg',
-    items: [
-      { name: 'Levantine Chicken Burger', desc: 'Zaatar chicken, garlic labne, pickled onion, baby gem, brioche bun', price: '$22' },
-      { name: 'Falafel Plate', desc: 'House falafel, hummus, tabbouleh, warm pita, chilli sauce', price: '$21' },
-      { name: 'Grilled Salmon Bowl', desc: 'Herb-crusted salmon, freekeh, roasted vegetables, tahini dressing', price: '$28' },
-      { name: 'Cauliflower Steak', desc: 'Whole roasted cauliflower, chermoula, pomegranate, almonds', price: '$24' },
-    ],
-  },
-  {
-    title: 'Sharing Plates',
-    img: '/images/IMG_5794.jpeg',
-    items: [
-      { name: 'Feast Platter (for 2)', desc: 'Selection of dips, mezze, grilled items, warm breads', price: '$55' },
-      { name: 'Hummus Board', desc: 'Whipped hummus, zaatar oil, crispy chickpeas, warm pita', price: '$18' },
-      { name: 'Mushroom Fatteh', desc: 'Crispy pita, yoghurt, sautéed mushroom, sumac, pine nuts', price: '$21' },
-      { name: 'Baba Ghanoush', desc: 'Charred eggplant, pomegranate molasses, fresh herbs, pita', price: '$16' },
-      { name: 'Kibbeh Bites', desc: 'Fried bulghur shells, spiced lamb, pine nuts, mint yoghurt', price: '$17' },
-    ],
-  },
-  {
-    title: 'Drinks',
-    img: '/images/IMG_5798.jpeg',
-    items: [
-      { name: 'Specialty Coffee', desc: 'Espresso, flat white, long black, cappuccino, latte — single origin beans', price: 'from $4.5' },
-      { name: 'Cold Brew', desc: '18-hour cold brewed, served over ice', price: '$7' },
-      { name: 'Matcha Latte', desc: 'Ceremonial grade matcha, oat milk, vanilla', price: '$7.5' },
-      { name: 'Rose Lemonade', desc: 'Fresh lemon, rose water, soda, mint', price: '$8' },
-      { name: 'Mango Lassi', desc: 'Alphonso mango, yoghurt, cardamom', price: '$8' },
-      { name: 'Moroccan Mint Tea', desc: 'Pot of fresh brewed mint tea, served traditionally', price: '$6' },
-    ],
-  },
+const breakfast = [
+  { name: 'Eggs Benny Mi Casa', price: '$24', desc: 'Halal beef pastrami, hollandaise, toasted brioche' },
+  { name: 'Shakshuka Royale', price: '$22', desc: 'Slow-braised tomato, harissa, poached eggs, sourdough' },
+  { name: 'Labneh & Avocado Toast', price: '$19', desc: 'Dukkah, pomegranate, za\'atar, sourdough' },
+  { name: 'Breakfast Platter', price: '$28', desc: 'Halal sausage, eggs, grilled tomato, mushrooms, toast' },
 ]
 
-export default function MenuPage() {
+const brunch = [
+  { name: 'Mi Casa Brunch Board', price: '$26', desc: 'Seasonal greens, labneh, dukkah, soft eggs, house pita' },
+  { name: 'Fatteh Bowl', price: '$23', desc: 'Crispy pita, warm chickpeas, yoghurt, sumac, pine nuts' },
+  { name: 'Chicken Shawarma Waffle', price: '$27', desc: 'House-spiced chicken, garlic sauce, pickled turnip' },
+  { name: 'Smoked Salmon Platter', price: '$25', desc: 'Cream cheese, capers, red onion, bagel chips' },
+]
+
+const sharing = [
+  { name: 'Levantine Mezze Board', price: '$38', desc: 'Hummus, baba ghanoush, muhammara, falafel, pita' },
+  { name: 'Crispy Cauliflower', price: '$18', desc: 'Tahini, pomegranate molasses, fresh herbs' },
+  { name: 'Lamb Cigars', price: '$22', desc: 'Spiced minced lamb, pine nuts, yoghurt dipping sauce' },
+  { name: 'Burrata & Heirloom Tomato', price: '$21', desc: 'Za\'atar oil, flaked salt, grilled sourdough' },
+]
+
+const drinks = [
+  { name: 'Arabic Coffee', price: '$6', desc: 'Traditional cardamom brew, served with dates' },
+  { name: 'Rose Latte', price: '$7', desc: 'House rose syrup, steamed oat milk, dried petals' },
+  { name: 'Mint Lemonade', price: '$8', desc: 'Fresh mint, lemon, sparkling water, honey' },
+  { name: 'Mango Lassi', price: '$9', desc: 'Alphonso mango, yoghurt, cardamom, pistachios' },
+]
+
+function MenuItem({ name, price, desc }: { name: string; price: string; desc: string }) {
   return (
-    <main style={{ background: 'var(--bg)', paddingTop: '5rem' }}>
+    <div style={{
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'flex-start',
+      padding: '1.25rem 0',
+      borderBottom: '1px solid var(--border)',
+      gap: '2rem',
+    }}>
+      <div>
+        <h3 style={{
+          fontFamily: 'Playfair Display, serif',
+          fontStyle: 'italic',
+          fontWeight: 400,
+          fontSize: '1.15rem',
+          color: 'var(--cream)',
+          marginBottom: '0.35rem',
+        }}>{name}</h3>
+        <p style={{
+          fontFamily: 'Work Sans, sans-serif',
+          fontWeight: 300,
+          fontSize: '0.85rem',
+          color: 'var(--muted)',
+          lineHeight: 1.6,
+        }}>{desc}</p>
+      </div>
+      <span style={{
+        fontFamily: 'Work Sans, sans-serif',
+        fontWeight: 400,
+        fontSize: '0.9rem',
+        color: 'var(--caramel)',
+        flexShrink: 0,
+      }}>{price}</span>
+    </div>
+  )
+}
 
-      {/* Hero */}
-      <section style={{ padding: 'clamp(3rem, 8vw, 7rem) 2rem' }}>
-        <FadeUp>
-          <p className="overline" style={{ marginBottom: '1.5rem' }}>South Brisbane · 100% Halal</p>
-        </FadeUp>
-        <FadeUp delay={0.1}>
-          <h1
-            style={{
-              fontFamily: 'Cormorant Garamond, serif',
-              fontStyle: 'italic',
-              fontWeight: 300,
-              fontSize: 'clamp(3.5rem, 10vw, 7rem)',
-              color: 'var(--cream)',
-              lineHeight: 1,
-              marginBottom: '1.5rem',
-            }}
-          >
-            The Menu
-          </h1>
-        </FadeUp>
-        <FadeUp delay={0.2}>
-          <p
-            style={{
-              fontFamily: 'DM Sans, sans-serif',
-              fontWeight: 300,
-              fontSize: '1rem',
-              color: 'var(--sand)',
-              maxWidth: '420px',
-              lineHeight: 1.7,
-            }}
-          >
-            Mediterranean-Oriental fusion, slow mornings, shared feasts.
-            Every item made fresh, every plate worth lingering over.
-          </p>
-        </FadeUp>
-      </section>
+function MenuItemLight({ name, price, desc }: { name: string; price: string; desc: string }) {
+  return (
+    <div style={{
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'flex-start',
+      padding: '1.25rem 0',
+      borderBottom: '1px solid rgba(10,10,10,0.12)',
+      gap: '2rem',
+    }}>
+      <div>
+        <h3 style={{
+          fontFamily: 'Playfair Display, serif',
+          fontStyle: 'italic',
+          fontWeight: 400,
+          fontSize: '1.15rem',
+          color: '#0a0a0a',
+          marginBottom: '0.35rem',
+        }}>{name}</h3>
+        <p style={{
+          fontFamily: 'Work Sans, sans-serif',
+          fontWeight: 300,
+          fontSize: '0.85rem',
+          color: 'rgba(10,10,10,0.55)',
+          lineHeight: 1.6,
+        }}>{desc}</p>
+      </div>
+      <span style={{
+        fontFamily: 'Work Sans, sans-serif',
+        fontWeight: 400,
+        fontSize: '0.9rem',
+        color: 'var(--caramel)',
+        flexShrink: 0,
+      }}>{price}</span>
+    </div>
+  )
+}
 
-      {/* Menu sections */}
-      {menuSections.map((section, sIdx) => (
-        <section
-          key={section.title}
-          style={{
-            padding: 'clamp(4rem, 8vw, 7rem) 2rem',
-            borderTop: '1px solid var(--border)',
-          }}
-        >
-          <div
-            style={{
-              maxWidth: '1200px',
-              margin: '0 auto',
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-              gap: '4rem',
-              alignItems: 'start',
-            }}
-          >
-            {/* Image col */}
-            <FadeUp>
-              <SVGMaskReveal
-                src={section.img}
-                alt={section.title}
-                aspectRatio="4/5"
-              />
-            </FadeUp>
-
-            {/* Items col */}
-            <div>
-              <FadeUp>
-                <h2
-                  style={{
-                    fontFamily: 'Cormorant Garamond, serif',
-                    fontStyle: 'italic',
-                    fontWeight: 300,
-                    fontSize: 'clamp(2rem, 4vw, 3rem)',
-                    color: 'var(--cream)',
-                    marginBottom: '2.5rem',
-                  }}
-                >
-                  {section.title}
-                </h2>
-              </FadeUp>
-
-              {section.items.map((item, iIdx) => (
-                <FadeUp key={item.name} delay={iIdx * 0.07}>
-                  <div
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'flex-start',
-                      gap: '1rem',
-                      padding: '1.2rem 0',
-                      borderBottom: '1px solid var(--border)',
-                    }}
-                  >
-                    <div>
-                      <p
-                        style={{
-                          fontFamily: 'Cormorant Garamond, serif',
-                          fontStyle: 'italic',
-                          fontWeight: 400,
-                          fontSize: '1.15rem',
-                          color: 'var(--cream)',
-                          marginBottom: '0.3rem',
-                        }}
-                      >
-                        {item.name}
-                      </p>
-                      <p
-                        style={{
-                          fontFamily: 'DM Sans, sans-serif',
-                          fontWeight: 300,
-                          fontSize: '0.82rem',
-                          color: 'var(--sand)',
-                          lineHeight: 1.5,
-                        }}
-                      >
-                        {item.desc}
-                      </p>
-                    </div>
-                    <span
-                      style={{
-                        fontFamily: 'DM Sans, sans-serif',
-                        fontWeight: 300,
-                        fontSize: '0.9rem',
-                        color: 'var(--terra)',
-                        whiteSpace: 'nowrap',
-                        flexShrink: 0,
-                      }}
-                    >
-                      {item.price}
-                    </span>
-                  </div>
-                </FadeUp>
-              ))}
-            </div>
-          </div>
-        </section>
-      ))}
-
-      {/* SVGMaskReveal bottom banner */}
-      <section style={{ padding: '0 2rem clamp(4rem, 8vw, 7rem)' }}>
-        <SVGMaskReveal
-          src="/images/IMG_5786.jpeg"
-          alt="Mi Casa Café feast"
-          aspectRatio="21/9"
+export default function Menu() {
+  return (
+    <main>
+      {/* ─── HERO ─── */}
+      <section style={{
+        position: 'relative',
+        height: '60vh',
+        minHeight: '400px',
+        overflow: 'hidden',
+      }}>
+        <Image
+          src="/images/IMG_5799.jpeg"
+          alt="Mi Casa Menu"
+          fill
+          unoptimized
+          priority
+          style={{ objectFit: 'cover', objectPosition: 'center' }}
         />
-      </section>
-
-      {/* CTA */}
-      <section
-        style={{
-          padding: 'clamp(4rem, 8vw, 7rem) 2rem',
-          textAlign: 'center',
-          borderTop: '1px solid var(--border)',
-        }}
-      >
-        <FadeUp>
-          <h3
-            style={{
-              fontFamily: 'Cormorant Garamond, serif',
-              fontStyle: 'italic',
-              fontWeight: 300,
-              fontSize: 'clamp(2rem, 5vw, 3.5rem)',
-              color: 'var(--cream)',
-              marginBottom: '1.5rem',
-            }}
-          >
-            Ready to join us?
-          </h3>
-        </FadeUp>
-        <FadeUp delay={0.1}>
-          <Link
-            href="/contact"
-            style={{
-              display: 'inline-block',
-              background: 'var(--terra)',
-              borderRadius: '9999px',
-              padding: '0.9rem 2.5rem',
-              fontFamily: 'DM Sans, sans-serif',
-              fontWeight: 500,
-              fontSize: '0.72rem',
-              letterSpacing: '0.16em',
-              textTransform: 'uppercase',
-              color: 'var(--cream)',
-            }}
-          >
-            Book a Table
-          </Link>
-        </FadeUp>
-      </section>
-
-      {/* Footer */}
-      <footer
-        style={{
-          padding: '3rem 2rem',
-          borderTop: '1px solid var(--border)',
-          display: 'flex',
-          flexWrap: 'wrap',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          gap: '1rem',
-        }}
-      >
-        <span
-          style={{
-            fontFamily: 'Cormorant Garamond, serif',
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'linear-gradient(to top, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0.2) 60%, transparent 100%)',
+        }} />
+        <div style={{
+          position: 'absolute',
+          bottom: '3.5rem',
+          left: '2.5rem',
+        }}>
+          <h1 style={{
+            fontFamily: 'Playfair Display, serif',
             fontStyle: 'italic',
             fontWeight: 300,
-            fontSize: '1.1rem',
-            color: 'var(--sand)',
-          }}
-        >
-          Mi Casa Café · South Brisbane
-        </span>
-        <span
-          style={{
-            fontFamily: 'DM Sans, sans-serif',
-            fontWeight: 300,
-            fontSize: '0.75rem',
-            color: 'rgba(212,184,150,0.4)',
-          }}
-        >
-          © 2026 Mi Casa Café
-        </span>
+            fontSize: 'clamp(4rem, 10vw, 8rem)',
+            lineHeight: 0.9,
+            color: 'var(--cream)',
+          }}>Menu</h1>
+        </div>
+      </section>
+
+      {/* ─── BREAKFAST — fond noir, photo split gauche ─── */}
+      <section style={{ background: 'var(--bg)' }}>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(2, 1fr)',
+          minHeight: '60vh',
+        }}>
+          {/* Image left */}
+          <div style={{ position: 'relative', minHeight: '400px', overflow: 'hidden' }}>
+            <Image
+              src="/images/IMG_5787.jpeg"
+              alt="Breakfast at Mi Casa"
+              fill
+              unoptimized
+              style={{
+                objectFit: 'cover',
+                objectPosition: 'center',
+                transition: 'transform 0.6s ease',
+              }}
+              onMouseEnter={e => ((e.target as HTMLImageElement).style.transform = 'scale(1.03)')}
+              onMouseLeave={e => ((e.target as HTMLImageElement).style.transform = 'scale(1)')}
+            />
+          </div>
+          {/* Items right */}
+          <div style={{ padding: 'clamp(3rem,5vw,5rem)' }}>
+            <FadeUp>
+              <p style={{
+                fontFamily: 'Work Sans, sans-serif',
+                fontWeight: 400,
+                fontSize: '0.6rem',
+                letterSpacing: '0.3em',
+                textTransform: 'uppercase',
+                color: 'var(--caramel)',
+                marginBottom: '0.75rem',
+              }}>Morning</p>
+              <h2 style={{
+                fontFamily: 'Playfair Display, serif',
+                fontStyle: 'italic',
+                fontWeight: 300,
+                fontSize: 'clamp(2rem, 4vw, 3rem)',
+                color: 'var(--cream)',
+                marginBottom: '2rem',
+                lineHeight: 1.1,
+              }}>Breakfast</h2>
+            </FadeUp>
+            <FadeUp delay={0.1}>
+              {breakfast.map(item => <MenuItem key={item.name} {...item} />)}
+            </FadeUp>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── BRUNCH — fond cream, photo plein-bleed entre titre et plats ─── */}
+      <section style={{ background: 'var(--cream-bg)', padding: 'clamp(4rem,8vw,7rem) 2.5rem' }}>
+        <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+          <FadeUp>
+            <p style={{
+              fontFamily: 'Work Sans, sans-serif',
+              fontWeight: 400,
+              fontSize: '0.6rem',
+              letterSpacing: '0.3em',
+              textTransform: 'uppercase',
+              color: 'var(--caramel)',
+              marginBottom: '0.75rem',
+            }}>Late Morning</p>
+            <h2 style={{
+              fontFamily: 'Playfair Display, serif',
+              fontStyle: 'italic',
+              fontWeight: 300,
+              fontSize: 'clamp(2rem, 4vw, 3rem)',
+              color: '#0a0a0a',
+              marginBottom: '2.5rem',
+              lineHeight: 1.1,
+            }}>Brunch</h2>
+          </FadeUp>
+        </div>
+        {/* Photo plein-bleed */}
+        <div style={{
+          position: 'relative',
+          width: '100vw',
+          marginLeft: 'calc(-2.5rem)',
+          height: '55vh',
+          overflow: 'hidden',
+          marginBottom: '3rem',
+        }}>
+          <Image
+            src="/images/IMG_5790.jpeg"
+            alt="Brunch at Mi Casa"
+            fill
+            unoptimized
+            style={{ objectFit: 'cover', objectPosition: 'center' }}
+          />
+        </div>
+        <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+          <FadeUp>
+            {brunch.map(item => <MenuItemLight key={item.name} {...item} />)}
+          </FadeUp>
+        </div>
+      </section>
+
+      {/* ─── SHARING PLATES — fond noir, photo split droite ─── */}
+      <section style={{ background: 'var(--bg)' }}>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(2, 1fr)',
+          minHeight: '60vh',
+        }}>
+          {/* Items left */}
+          <div style={{ padding: 'clamp(3rem,5vw,5rem)' }}>
+            <FadeUp>
+              <p style={{
+                fontFamily: 'Work Sans, sans-serif',
+                fontWeight: 400,
+                fontSize: '0.6rem',
+                letterSpacing: '0.3em',
+                textTransform: 'uppercase',
+                color: 'var(--caramel)',
+                marginBottom: '0.75rem',
+              }}>For the table</p>
+              <h2 style={{
+                fontFamily: 'Playfair Display, serif',
+                fontStyle: 'italic',
+                fontWeight: 300,
+                fontSize: 'clamp(2rem, 4vw, 3rem)',
+                color: 'var(--cream)',
+                marginBottom: '2rem',
+                lineHeight: 1.1,
+              }}>Sharing Plates</h2>
+            </FadeUp>
+            <FadeUp delay={0.1}>
+              {sharing.map(item => <MenuItem key={item.name} {...item} />)}
+            </FadeUp>
+          </div>
+          {/* Image right */}
+          <div style={{ position: 'relative', minHeight: '400px', overflow: 'hidden' }}>
+            <Image
+              src="/images/IMG_5793.jpeg"
+              alt="Sharing plates at Mi Casa"
+              fill
+              unoptimized
+              style={{
+                objectFit: 'cover',
+                objectPosition: 'center',
+                transition: 'transform 0.6s ease',
+              }}
+              onMouseEnter={e => ((e.target as HTMLImageElement).style.transform = 'scale(1.03)')}
+              onMouseLeave={e => ((e.target as HTMLImageElement).style.transform = 'scale(1)')}
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* ─── DRINKS — fond cream, photo plein-bleed ─── */}
+      <section style={{ background: 'var(--cream-bg)', padding: 'clamp(4rem,8vw,7rem) 2.5rem' }}>
+        <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+          <FadeUp>
+            <p style={{
+              fontFamily: 'Work Sans, sans-serif',
+              fontWeight: 400,
+              fontSize: '0.6rem',
+              letterSpacing: '0.3em',
+              textTransform: 'uppercase',
+              color: 'var(--caramel)',
+              marginBottom: '0.75rem',
+            }}>All day</p>
+            <h2 style={{
+              fontFamily: 'Playfair Display, serif',
+              fontStyle: 'italic',
+              fontWeight: 300,
+              fontSize: 'clamp(2rem, 4vw, 3rem)',
+              color: '#0a0a0a',
+              marginBottom: '2.5rem',
+              lineHeight: 1.1,
+            }}>Drinks</h2>
+          </FadeUp>
+        </div>
+        {/* Photo plein-bleed */}
+        <div style={{
+          position: 'relative',
+          width: '100vw',
+          marginLeft: 'calc(-2.5rem)',
+          height: '50vh',
+          overflow: 'hidden',
+          marginBottom: '3rem',
+        }}>
+          <Image
+            src="/images/IMG_5795.jpeg"
+            alt="Drinks at Mi Casa"
+            fill
+            unoptimized
+            style={{ objectFit: 'cover', objectPosition: 'center' }}
+          />
+        </div>
+        <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+          <FadeUp>
+            {drinks.map(item => <MenuItemLight key={item.name} {...item} />)}
+          </FadeUp>
+        </div>
+      </section>
+
+      {/* ─── FOOTER ─── */}
+      <footer style={{
+        background: 'var(--bg)',
+        borderTop: '1px solid var(--border)',
+        padding: '2.5rem 2.5rem',
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        gap: '1rem',
+      }}>
+        <span style={{
+          fontFamily: 'Playfair Display, serif',
+          fontStyle: 'italic',
+          fontWeight: 300,
+          fontSize: '1.1rem',
+          color: 'var(--muted)',
+        }}>Mi Casa Cafe</span>
+        <Link href="/" style={{
+          fontFamily: 'Work Sans, sans-serif',
+          fontWeight: 300,
+          fontSize: '0.8rem',
+          color: 'var(--muted)',
+          letterSpacing: '0.1em',
+        }}>Back to home</Link>
       </footer>
     </main>
   )

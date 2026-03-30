@@ -1,38 +1,44 @@
 'use client'
-import { useEffect, useRef, ReactNode } from 'react'
+import { useRef, useEffect, useState, ReactNode, CSSProperties } from 'react'
 
 interface FadeUpProps {
   children: ReactNode
   delay?: number
+  style?: CSSProperties
   className?: string
-  style?: React.CSSProperties
 }
 
-export default function FadeUp({ children, delay = 0, className = '', style = {} }: FadeUpProps) {
+export default function FadeUp({ children, delay = 0, style, className }: FadeUpProps) {
   const ref = useRef<HTMLDivElement>(null)
+  const [visible, setVisible] = useState(false)
 
   useEffect(() => {
     const el = ref.current
     if (!el) return
-
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setTimeout(() => {
-            el.classList.add('visible')
-          }, delay * 1000)
+          setVisible(true)
           observer.unobserve(el)
         }
       },
-      { threshold: 0.15 }
+      { rootMargin: '-60px 0px' }
     )
-
     observer.observe(el)
     return () => observer.disconnect()
-  }, [delay])
+  }, [])
 
   return (
-    <div ref={ref} className={`fade-up ${className}`} style={style}>
+    <div
+      ref={ref}
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? 'translateY(0)' : 'translateY(30px)',
+        transition: `opacity 0.7s ease ${delay}s, transform 0.7s ease ${delay}s`,
+        ...style,
+      }}
+      className={className}
+    >
       {children}
     </div>
   )
