@@ -183,21 +183,36 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─── PHOTO FULL-BLEED ─── */}
-      <section style={{
-        position: 'relative',
-        width: '100%',
-        height: '70vh',
+      {/* ─── MARQUEE SEPARATOR ─── */}
+      <div style={{
+        background: 'var(--bg)',
         overflow: 'hidden',
+        borderTop: '1px solid rgba(212,136,58,0.12)',
+        borderBottom: '1px solid rgba(212,136,58,0.12)',
+        padding: '1.25rem 0',
       }}>
-        <Image
-          src="/images/IMG_5794.jpeg"
-          alt="Mi Casa Cafe atmosphere"
-          fill
-          unoptimized
-          style={{ objectFit: 'cover', objectPosition: 'center' }}
-        />
-      </section>
+        <div style={{
+          display: 'flex',
+          width: 'max-content',
+          animation: 'carousel-scroll 24s linear infinite',
+          gap: '0',
+        }}>
+          {Array.from({ length: 12 }).map((_, i) => (
+            <span key={i} style={{
+              fontFamily: 'Work Sans, sans-serif',
+              fontWeight: 300,
+              fontSize: '0.65rem',
+              letterSpacing: '0.32em',
+              textTransform: 'uppercase',
+              color: 'rgba(212,136,58,0.45)',
+              paddingRight: '3.5rem',
+              whiteSpace: 'nowrap',
+            }}>
+              South Brisbane · Halal Certified · Since 2020
+            </span>
+          ))}
+        </div>
+      </div>
 
       {/* ─── SPLIT 50/50 ─── */}
       <section style={{
