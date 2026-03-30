@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 
 const navLinks = [
+  { label: 'Home', href: '/' },
   { label: 'Menu', href: '/menu' },
   { label: 'Our Story', href: '/our-story' },
   { label: 'Find Us', href: '/find-us' },
@@ -144,20 +145,36 @@ export default function Nav() {
           }}>
             Mi Casa Cafe · South Brisbane
           </span>
-          <a
-            href="https://instagram.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              fontFamily: 'Work Sans, sans-serif',
-              fontSize: '0.7rem',
-              letterSpacing: '0.14em',
-              textTransform: 'uppercase',
-              color: 'var(--muted)',
-            }}
-          >
-            Instagram
-          </a>
+          <div style={{ display: 'flex', gap: '1.25rem' }}>
+            <a
+              href="https://www.instagram.com/micasacafe_"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                fontFamily: 'Work Sans, sans-serif',
+                fontSize: '0.7rem',
+                letterSpacing: '0.14em',
+                textTransform: 'uppercase',
+                color: 'var(--muted)',
+              }}
+            >
+              @micasacafe_
+            </a>
+            <a
+              href="https://www.instagram.com/micasacafesb"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                fontFamily: 'Work Sans, sans-serif',
+                fontSize: '0.7rem',
+                letterSpacing: '0.14em',
+                textTransform: 'uppercase',
+                color: 'var(--muted)',
+              }}
+            >
+              @micasacafesb
+            </a>
+          </div>
         </div>
       </div>
     </>

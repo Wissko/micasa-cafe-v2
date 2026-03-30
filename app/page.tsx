@@ -444,6 +444,8 @@ export default function Home() {
             { label: 'Our Story', href: '/our-story' },
             { label: 'Find Us', href: '/find-us' },
             { label: 'Contact', href: '/contact' },
+            { label: '@micasacafe_', href: 'https://www.instagram.com/micasacafe_' },
+            { label: '@micasacafesb', href: 'https://www.instagram.com/micasacafesb' },
           ].map(l => (
             <Link key={l.href} href={l.href} style={{
               fontFamily: 'Work Sans, sans-serif',
