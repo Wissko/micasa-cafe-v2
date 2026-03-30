@@ -190,7 +190,7 @@ export default function Home() {
         overflow: 'hidden',
       }}>
         <Image
-          src="/images/IMG_5793.jpeg"
+          src="/images/IMG_5794.jpeg"
           alt="Mi Casa Cafe atmosphere"
           fill
           unoptimized
