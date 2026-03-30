@@ -17,11 +17,10 @@ export default function FindUs() {
   return (
     <main style={{ background: 'var(--bg)' }}>
 
-      {/* ─── HERO ─── */}
+      {/* ─── HERO — Two locations ─── */}
       <section style={{
         background: 'var(--bg)',
-        padding: 'clamp(8rem,15vw,13rem) 2.5rem clamp(5rem,10vw,8rem)',
-        textAlign: 'center',
+        padding: 'clamp(8rem,15vw,13rem) clamp(2rem,6vw,5rem) clamp(5rem,10vw,8rem)',
       }}>
         <FadeUp>
           <p style={{
@@ -31,56 +30,128 @@ export default function FindUs() {
             letterSpacing: '0.3em',
             textTransform: 'uppercase',
             color: 'var(--caramel)',
-            marginBottom: '1.5rem',
-          }}>South Brisbane</p>
-          <h1 style={{
-            fontFamily: 'Playfair Display, serif',
-            fontStyle: 'italic',
-            fontWeight: 300,
-            fontSize: 'clamp(3rem, 8vw, 7rem)',
-            lineHeight: 0.95,
-            color: 'var(--cream)',
-            marginBottom: '1.25rem',
-          }}>
-            4/275 Grey Street
-          </h1>
+            marginBottom: '3rem',
+          }}>Our Locations</p>
         </FadeUp>
-        <FadeUp delay={0.1}>
-          <p style={{
-            fontFamily: 'Work Sans, sans-serif',
-            fontWeight: 300,
-            fontSize: '1.05rem',
-            color: 'var(--muted)',
-            marginBottom: '2.5rem',
-            letterSpacing: '0.04em',
-          }}>
-            South Brisbane, Queensland, Australia
-          </p>
-        </FadeUp>
-        <FadeUp delay={0.2}>
-          <a
-            href="https://maps.google.com/?q=4/275+Grey+Street+South+Brisbane"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              display: 'inline-block',
-              background: 'var(--caramel)',
-              borderRadius: '9999px',
-              padding: '0.85rem 2.25rem',
-              fontFamily: 'Work Sans, sans-serif',
-              fontWeight: 500,
-              fontSize: '0.72rem',
-              letterSpacing: '0.14em',
-              textTransform: 'uppercase',
-              color: '#0a0a0a',
-              transition: 'opacity 0.3s ease',
-            }}
-            onMouseEnter={e => (e.currentTarget.style.opacity = '0.85')}
-            onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
-          >
-            Get Directions
-          </a>
-        </FadeUp>
+
+        {/* Two locations side by side */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+          gap: 'clamp(3rem, 6vw, 6rem)',
+          borderTop: '1px solid var(--border)',
+          paddingTop: 'clamp(3rem, 6vw, 5rem)',
+        }}>
+
+          {/* Location 1 */}
+          <FadeUp delay={0.05}>
+            <div>
+              <p style={{
+                fontFamily: 'Work Sans, sans-serif',
+                fontWeight: 400,
+                fontSize: '0.58rem',
+                letterSpacing: '0.28em',
+                textTransform: 'uppercase',
+                color: 'var(--muted)',
+                marginBottom: '1.25rem',
+              }}>South Brisbane</p>
+              <h2 style={{
+                fontFamily: 'Playfair Display, serif',
+                fontStyle: 'italic',
+                fontWeight: 300,
+                fontSize: 'clamp(2rem, 5vw, 3.8rem)',
+                lineHeight: 1,
+                color: 'var(--cream)',
+                marginBottom: '0.75rem',
+              }}>
+                4/275 Grey Street
+              </h2>
+              <p style={{
+                fontFamily: 'Work Sans, sans-serif',
+                fontWeight: 300,
+                fontSize: '0.95rem',
+                color: 'var(--muted)',
+                marginBottom: '2rem',
+                letterSpacing: '0.02em',
+              }}>
+                South Brisbane, Queensland, Australia
+              </p>
+              <a
+                href="https://maps.google.com/?q=4/275+Grey+Street+South+Brisbane"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'inline-block',
+                  border: '1px solid var(--border2)',
+                  borderRadius: '9999px',
+                  padding: '0.75rem 1.75rem',
+                  fontFamily: 'Work Sans, sans-serif',
+                  fontWeight: 500,
+                  fontSize: '0.68rem',
+                  letterSpacing: '0.14em',
+                  textTransform: 'uppercase',
+                  color: 'var(--cream)',
+                  transition: 'background 0.3s ease, color 0.3s ease',
+                }}
+                onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = 'var(--caramel)'; (e.currentTarget as HTMLAnchorElement).style.color = '#0a0a0a'; (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--caramel)'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = 'transparent'; (e.currentTarget as HTMLAnchorElement).style.color = 'var(--cream)'; (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--border2)'; }}
+              >
+                Get Directions
+              </a>
+            </div>
+          </FadeUp>
+
+          {/* Location 2 — second address (to be confirmed by Yose) */}
+          <FadeUp delay={0.15}>
+            <div>
+              <p style={{
+                fontFamily: 'Work Sans, sans-serif',
+                fontWeight: 400,
+                fontSize: '0.58rem',
+                letterSpacing: '0.28em',
+                textTransform: 'uppercase',
+                color: 'var(--muted)',
+                marginBottom: '1.25rem',
+              }}>Second Location</p>
+              <h2 style={{
+                fontFamily: 'Playfair Display, serif',
+                fontStyle: 'italic',
+                fontWeight: 300,
+                fontSize: 'clamp(2rem, 5vw, 3.8rem)',
+                lineHeight: 1,
+                color: 'var(--cream)',
+                marginBottom: '0.75rem',
+              }}>
+                Coming Soon
+              </h2>
+              <p style={{
+                fontFamily: 'Work Sans, sans-serif',
+                fontWeight: 300,
+                fontSize: '0.95rem',
+                color: 'var(--muted)',
+                marginBottom: '2rem',
+                letterSpacing: '0.02em',
+              }}>
+                Address to be confirmed
+              </p>
+              <span style={{
+                display: 'inline-block',
+                border: '1px solid var(--border)',
+                borderRadius: '9999px',
+                padding: '0.75rem 1.75rem',
+                fontFamily: 'Work Sans, sans-serif',
+                fontWeight: 400,
+                fontSize: '0.68rem',
+                letterSpacing: '0.14em',
+                textTransform: 'uppercase',
+                color: 'var(--muted)',
+              }}>
+                Stay tuned
+              </span>
+            </div>
+          </FadeUp>
+
+        </div>
       </section>
 
       {/* ─── HORAIRES ─── */}

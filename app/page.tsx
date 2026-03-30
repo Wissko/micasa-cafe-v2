@@ -362,62 +362,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─── FIND US TEASER ─── */}
-      <section style={{
-        background: 'var(--bg)',
-        padding: 'clamp(6rem,12vw,10rem) 2.5rem',
-        textAlign: 'center',
-      }}>
-        <FadeUp>
-          <h2 style={{
-            fontFamily: 'Playfair Display, serif',
-            fontStyle: 'italic',
-            fontWeight: 300,
-            fontSize: 'clamp(3rem, 8vw, 7rem)',
-            lineHeight: 0.95,
-            color: 'var(--cream)',
-            marginBottom: '1rem',
-          }}>
-            4/275 Grey Street
-          </h2>
-        </FadeUp>
-        <FadeUp delay={0.1}>
-          <p style={{
-            fontFamily: 'Work Sans, sans-serif',
-            fontWeight: 300,
-            fontSize: '1rem',
-            color: 'var(--muted)',
-            marginBottom: '2.5rem',
-            letterSpacing: '0.04em',
-          }}>
-            South Brisbane, Queensland
-          </p>
-        </FadeUp>
-        <FadeUp delay={0.2}>
-          <a
-            href="https://maps.google.com/?q=4/275+Grey+Street+South+Brisbane"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              display: 'inline-block',
-              background: 'var(--caramel)',
-              borderRadius: '9999px',
-              padding: '0.85rem 2.25rem',
-              fontFamily: 'Work Sans, sans-serif',
-              fontWeight: 500,
-              fontSize: '0.72rem',
-              letterSpacing: '0.14em',
-              textTransform: 'uppercase',
-              color: '#0a0a0a',
-              transition: 'opacity 0.3s ease',
-            }}
-            onMouseEnter={e => (e.currentTarget.style.opacity = '0.85')}
-            onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
-          >
-            Get Directions
-          </a>
-        </FadeUp>
-      </section>
+
 
       {/* ─── FOOTER ─── */}
       <footer style={{
