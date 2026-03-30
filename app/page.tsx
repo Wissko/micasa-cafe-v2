@@ -73,15 +73,25 @@ export default function Home() {
             South Brisbane · Halal Certified
           </p>
           <h1 style={{
-            fontFamily: 'Playfair Display, serif',
-            fontStyle: 'italic',
-            fontWeight: 300,
+            fontFamily: "'Barlow Condensed', sans-serif",
+            fontWeight: 800,
             fontSize: 'clamp(80px, 14vw, 160px)',
             lineHeight: 0.88,
+            letterSpacing: '0.04em',
+            textTransform: 'uppercase',
             color: 'var(--cream)',
             marginBottom: '1.25rem',
+            position: 'relative',
           }}>
-            Mi Casa
+            {/* Scanline effect sur le titre — echo du logo */}
+            <span aria-hidden style={{
+              position: 'absolute',
+              inset: 0,
+              backgroundImage: 'repeating-linear-gradient(to bottom, transparent 0px, transparent 5px, rgba(0,0,0,0.18) 5px, rgba(0,0,0,0.18) 6px)',
+              pointerEvents: 'none',
+              zIndex: 1,
+            }} />
+            <span style={{ position: 'relative', zIndex: 2 }}>MI CASA</span>
           </h1>
           <p style={{
             fontFamily: 'Work Sans, sans-serif',

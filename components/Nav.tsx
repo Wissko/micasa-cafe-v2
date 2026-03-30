@@ -31,38 +31,43 @@ export default function Nav() {
         justifyContent: 'space-between',
         padding: '1.25rem 2rem',
       }}>
-        {/* Pill button */}
+        {/* Logo button — inspired by Mi Casa scanline logo */}
         <button
           onClick={() => setOpen(!open)}
           aria-label="Toggle navigation"
           style={{
-            background: 'rgba(10,10,10,0.85)',
-            backdropFilter: 'blur(12px)',
-            border: '1px solid var(--border2)',
-            borderRadius: '9999px',
-            padding: '0.55rem 1.2rem',
+            background: 'rgba(10,10,10,0.88)',
+            backdropFilter: 'blur(14px)',
+            WebkitBackdropFilter: 'blur(14px)',
+            border: '1px solid rgba(212,136,58,0.25)',
+            borderRadius: '6px',
+            padding: '0.5rem 0.9rem',
             cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.65rem',
+            position: 'relative',
+            overflow: 'hidden',
           }}
         >
+          {/* Scanline overlay — stries horizontales comme le logo */}
+          <span aria-hidden style={{
+            position: 'absolute',
+            inset: 0,
+            backgroundImage: 'repeating-linear-gradient(to bottom, transparent 0px, transparent 3px, rgba(212,136,58,0.12) 3px, rgba(212,136,58,0.12) 4px)',
+            pointerEvents: 'none',
+          }} />
+          {/* MI CASA condensed */}
           <span style={{
-            fontFamily: 'Playfair Display, serif',
-            fontStyle: 'italic',
-            fontWeight: 400,
-            fontSize: '1rem',
-            color: 'var(--cream)',
-            letterSpacing: '0.04em',
-          }}>MC</span>
-          <span style={{
-            fontFamily: 'Work Sans, sans-serif',
-            fontWeight: 400,
-            fontSize: '0.72rem',
-            letterSpacing: '0.14em',
+            position: 'relative',
+            fontFamily: "'Work Sans', sans-serif",
+            fontWeight: 700,
+            fontSize: '0.78rem',
+            letterSpacing: '0.22em',
             textTransform: 'uppercase',
-            color: 'var(--muted)',
-          }}>Menu</span>
+            color: 'var(--cream)',
+            display: 'block',
+            lineHeight: 1,
+          }}>
+            MI CASA
+          </span>
         </button>
 
         {/* Book a table CTA */}
