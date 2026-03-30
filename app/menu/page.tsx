@@ -118,7 +118,7 @@ export default function Menu() {
         overflow: 'hidden',
       }}>
         <Image
-          src="/images/IMG_5786.jpeg"
+          src="/images/IMG_5797.jpeg"
           alt="Mi Casa Menu"
           fill
           unoptimized
