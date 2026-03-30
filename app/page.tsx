@@ -26,7 +26,7 @@ const highlights = [
     name: 'Mushroom Fatteh',
     price: '$21',
     desc: 'Crispy pita, yoghurt, sumac, toasted pine nuts',
-    img: '/images/IMG_5799.jpeg',
+    img: '/images/IMG_5795.jpeg',
   },
 ]
 
