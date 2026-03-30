@@ -2,6 +2,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import FadeUp from '@/components/FadeUp'
+import HighlightsCarousel from '@/components/HighlightsCarousel'
 
 const highlights = [
   {
@@ -309,75 +310,7 @@ export default function Home() {
               Today&apos;s highlights
             </h2>
           </FadeUp>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: '0',
-          }}>
-            {highlights.map((item, i) => (
-              <FadeUp key={item.name} delay={i * 0.08}>
-                <div style={{ background: 'var(--cream-bg)', overflow: 'hidden' }}>
-                  <div style={{
-                    position: 'relative',
-                    aspectRatio: '4/3',
-                    overflow: 'hidden',
-                  }}>
-                    <Image
-                      src={item.img}
-                      alt={item.name}
-                      fill
-                      unoptimized
-                      style={{
-                        objectFit: 'cover',
-                        transition: 'transform 0.6s ease',
-                      }}
-                      onMouseEnter={e => ((e.target as HTMLImageElement).style.transform = 'scale(1.03)')}
-                      onMouseLeave={e => ((e.target as HTMLImageElement).style.transform = 'scale(1)')}
-                    />
-                  </div>
-                  <div style={{ padding: '1.25rem 1.5rem 1.75rem' }}>
-                    <div style={{
-                      display: 'flex',
-                      flexWrap: 'wrap',
-                      justifyContent: 'space-between',
-                      alignItems: 'baseline',
-                      gap: '0.25rem 1rem',
-                      marginBottom: '0.5rem',
-                    }}>
-                      <h3 style={{
-                        fontFamily: 'Playfair Display, serif',
-                        fontStyle: 'italic',
-                        fontWeight: 400,
-                        fontSize: 'clamp(1rem, 3vw, 1.25rem)',
-                        color: '#0a0a0a',
-                        flexShrink: 0,
-                      }}>
-                        {item.name}
-                      </h3>
-                      <span style={{
-                        fontFamily: 'Work Sans, sans-serif',
-                        fontWeight: 500,
-                        fontSize: '0.9rem',
-                        color: 'var(--caramel)',
-                        flexShrink: 0,
-                      }}>
-                        {item.price}
-                      </span>
-                    </div>
-                    <p style={{
-                      fontFamily: 'Work Sans, sans-serif',
-                      fontWeight: 300,
-                      fontSize: '0.85rem',
-                      color: 'rgba(10,10,10,0.6)',
-                      lineHeight: 1.6,
-                    }}>
-                      {item.desc}
-                    </p>
-                  </div>
-                </div>
-              </FadeUp>
-            ))}
-          </div>
+          <HighlightsCarousel items={highlights} />
         </div>
       </section>
 
