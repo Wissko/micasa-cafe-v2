@@ -112,7 +112,7 @@ export default function FindUs() {
                 textTransform: 'uppercase',
                 color: 'var(--muted)',
                 marginBottom: '1.25rem',
-              }}>Second Location</p>
+              }}>Underwood</p>
               <h2 style={{
                 fontFamily: 'Playfair Display, serif',
                 fontStyle: 'italic',
@@ -122,7 +122,7 @@ export default function FindUs() {
                 color: 'var(--cream)',
                 marginBottom: '0.75rem',
               }}>
-                Coming Soon
+                3245 Logan Road
               </h2>
               <p style={{
                 fontFamily: 'Work Sans, sans-serif',
@@ -132,22 +132,30 @@ export default function FindUs() {
                 marginBottom: '2rem',
                 letterSpacing: '0.02em',
               }}>
-                Address to be confirmed
+                Underwood, Queensland, Australia
               </p>
-              <span style={{
-                display: 'inline-block',
-                border: '1px solid var(--border)',
-                borderRadius: '9999px',
-                padding: '0.75rem 1.75rem',
-                fontFamily: 'Work Sans, sans-serif',
-                fontWeight: 400,
-                fontSize: '0.68rem',
-                letterSpacing: '0.14em',
-                textTransform: 'uppercase',
-                color: 'var(--muted)',
-              }}>
-                Stay tuned
-              </span>
+              <a
+                href="https://maps.google.com/?q=3245+Logan+Road+Underwood+QLD"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'inline-block',
+                  border: '1px solid var(--border2)',
+                  borderRadius: '9999px',
+                  padding: '0.75rem 1.75rem',
+                  fontFamily: 'Work Sans, sans-serif',
+                  fontWeight: 500,
+                  fontSize: '0.68rem',
+                  letterSpacing: '0.14em',
+                  textTransform: 'uppercase',
+                  color: 'var(--cream)',
+                  transition: 'background 0.3s ease, color 0.3s ease',
+                }}
+                onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = 'var(--caramel)'; (e.currentTarget as HTMLAnchorElement).style.color = '#0a0a0a'; (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--caramel)'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = 'transparent'; (e.currentTarget as HTMLAnchorElement).style.color = 'var(--cream)'; (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--border2)'; }}
+              >
+                Get Directions
+              </a>
             </div>
           </FadeUp>
 
