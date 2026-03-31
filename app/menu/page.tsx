@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { motion, useInView, useScroll, useSpring, useTransform } from 'framer-motion'
 
 /* ─── DATA ─── */
 
@@ -41,6 +41,69 @@ const SECTIONS = [
   { id: 'drinks', label: 'Drinks', sublabel: 'All day', items: drinks },
 ]
 
+/* ─── CUSTOM CURSOR ─── */
+
+function CustomCursor() {
+  const [pos, setPos] = useState({ x: -100, y: -100 })
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    const move = (e: MouseEvent) => {
+      setPos({ x: e.clientX, y: e.clientY })
+      setVisible(true)
+    }
+    const hide = () => setVisible(false)
+    window.addEventListener('mousemove', move)
+    window.addEventListener('mouseleave', hide)
+    return () => {
+      window.removeEventListener('mousemove', move)
+      window.removeEventListener('mouseleave', hide)
+    }
+  }, [])
+
+  return (
+    <motion.div
+      animate={{ x: pos.x - 4, y: pos.y - 4, opacity: visible ? 1 : 0 }}
+      transition={{ type: 'spring', stiffness: 180, damping: 22, mass: 0.4 }}
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: 8,
+        height: 8,
+        borderRadius: '50%',
+        background: 'var(--caramel)',
+        pointerEvents: 'none',
+        zIndex: 9999,
+        mixBlendMode: 'normal',
+      }}
+    />
+  )
+}
+
+/* ─── SCROLL PROGRESS ─── */
+
+function ScrollProgress() {
+  const { scrollYProgress } = useScroll()
+  const scaleX = useSpring(scrollYProgress, { stiffness: 200, damping: 30 })
+
+  return (
+    <motion.div
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        height: '2px',
+        background: 'var(--caramel)',
+        transformOrigin: 'left',
+        scaleX,
+        zIndex: 100,
+      }}
+    />
+  )
+}
+
 /* ─── ANIMATED DIVIDER ─── */
 
 function AnimatedDivider() {
@@ -50,8 +113,8 @@ function AnimatedDivider() {
   return (
     <div ref={ref} style={{ overflow: 'hidden', margin: '0 0 4rem' }}>
       <motion.div
-        initial={{ width: '0%' }}
-        animate={inView ? { width: '100%' } : { width: '0%' }}
+        initial={{ scaleX: 0 }}
+        animate={inView ? { scaleX: 1 } : { scaleX: 0 }}
         transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
         style={{
           height: '1px',
@@ -90,7 +153,7 @@ function MenuItem({
         gap: '1.25rem',
         padding: '1.75rem 0',
         borderBottom: '1px solid var(--border)',
-        cursor: 'default',
+        cursor: 'none',
       }}
     >
       {/* Line number */}
@@ -129,7 +192,7 @@ function MenuItem({
           <motion.div
             initial={false}
             animate={{ scaleX: hovered ? 1 : 0 }}
-            transition={{ duration: 0.45, ease: [0.25, 1, 0.5, 1] }}
+            transition={{ duration: 0.45, ease: [0.25, 1, 0.5, 1] as [number, number, number, number] }}
             style={{
               position: 'absolute',
               bottom: -2,
@@ -156,8 +219,13 @@ function MenuItem({
         </p>
       </div>
 
-      {/* Price */}
-      <span
+      {/* Price — lifts on hover */}
+      <motion.span
+        animate={hovered
+          ? { y: -3, textShadow: '0 0 20px rgba(212,136,58,0.6)' }
+          : { y: 0, textShadow: '0 0 0px rgba(212,136,58,0)' }
+        }
+        transition={{ duration: 0.25 }}
         style={{
           fontFamily: 'Work Sans, sans-serif',
           fontWeight: 400,
@@ -166,10 +234,11 @@ function MenuItem({
           flexShrink: 0,
           paddingTop: '0.2rem',
           letterSpacing: '0.04em',
+          display: 'inline-block',
         }}
       >
         {price}
-      </span>
+      </motion.span>
     </motion.div>
   )
 }
@@ -182,12 +251,14 @@ function MenuSection({
   sublabel,
   items,
   isLast,
+  index,
 }: {
   id: string
   label: string
   sublabel: string
   items: typeof breakfast
   isLast: boolean
+  index: number
 }) {
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, { once: true, margin: '-15% 0px' })
@@ -211,6 +282,8 @@ function MenuSection({
     },
   }
 
+  const countStr = `${String(index + 1).padStart(2, '0')} / ${String(SECTIONS.length).padStart(2, '0')}`
+
   return (
     <section
       id={id}
@@ -226,35 +299,57 @@ function MenuSection({
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.7, ease: [0.25, 1, 0.5, 1] }}
-        style={{ marginBottom: '3.5rem' }}
+        transition={{ duration: 0.7, ease: [0.25, 1, 0.5, 1] as [number, number, number, number] }}
+        style={{ marginBottom: '3.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}
       >
-        <p
+        <div>
+          <p
+            style={{
+              fontFamily: 'Work Sans, sans-serif',
+              fontWeight: 400,
+              fontSize: '0.6rem',
+              letterSpacing: '0.32em',
+              textTransform: 'uppercase',
+              color: 'var(--caramel)',
+              marginBottom: '0.65rem',
+            }}
+          >
+            {sublabel}
+          </p>
+          {/* Clip-path reveal title */}
+          <div style={{ overflow: 'hidden' }}>
+            <motion.h2
+              initial={{ clipPath: 'inset(100% 0 0 0)' }}
+              animate={inView ? { clipPath: 'inset(0% 0 0 0)' } : {}}
+              transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+              style={{
+                fontFamily: 'Playfair Display, serif',
+                fontStyle: 'italic',
+                fontWeight: 300,
+                fontSize: 'clamp(2.4rem, 5vw, 3.6rem)',
+                color: 'var(--cream)',
+                lineHeight: 1,
+                letterSpacing: '-0.01em',
+              }}
+            >
+              {label}
+            </motion.h2>
+          </div>
+        </div>
+        {/* Section count */}
+        <span
           style={{
             fontFamily: 'Work Sans, sans-serif',
-            fontWeight: 400,
-            fontSize: '0.6rem',
-            letterSpacing: '0.32em',
-            textTransform: 'uppercase',
-            color: 'var(--caramel)',
-            marginBottom: '0.65rem',
-          }}
-        >
-          {sublabel}
-        </p>
-        <h2
-          style={{
-            fontFamily: 'Playfair Display, serif',
-            fontStyle: 'italic',
             fontWeight: 300,
-            fontSize: 'clamp(2.4rem, 5vw, 3.6rem)',
-            color: 'var(--cream)',
-            lineHeight: 1,
-            letterSpacing: '-0.01em',
+            fontSize: '0.65rem',
+            letterSpacing: '0.18em',
+            color: 'rgba(245,240,230,0.18)',
+            paddingBottom: '0.5rem',
+            userSelect: 'none',
           }}
         >
-          {label}
-        </h2>
+          {countStr}
+        </span>
       </motion.div>
 
       {/* Items */}
@@ -312,7 +407,7 @@ function StickyNav({ activeId }: { activeId: string }) {
             style={{
               background: 'none',
               border: 'none',
-              cursor: 'pointer',
+              cursor: 'none',
               fontFamily: 'Work Sans, sans-serif',
               fontWeight: isActive ? 500 : 300,
               fontSize: '0.72rem',
@@ -325,21 +420,21 @@ function StickyNav({ activeId }: { activeId: string }) {
             }}
           >
             {label}
-            {isActive && (
-              <motion.div
-                layoutId="nav-indicator"
-                style={{
-                  position: 'absolute',
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  height: '2px',
-                  background: 'var(--caramel)',
-                  borderRadius: '2px 2px 0 0',
-                }}
-                transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-              />
-            )}
+            {/* Always in DOM — opacity toggle fixes the layoutId bug */}
+            <motion.div
+              layoutId="nav-indicator"
+              style={{
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+                right: 0,
+                height: '2px',
+                background: 'var(--caramel)',
+                borderRadius: '2px 2px 0 0',
+                opacity: isActive ? 1 : 0,
+              }}
+              transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+            />
           </button>
         )
       })}
@@ -352,7 +447,6 @@ function StickyNav({ activeId }: { activeId: string }) {
 export default function Menu() {
   const [activeId, setActiveId] = useState(SECTIONS[0].id)
 
-  /* IntersectionObserver for nav active state */
   useEffect(() => {
     const observers: IntersectionObserver[] = []
 
@@ -374,7 +468,20 @@ export default function Menu() {
   }, [])
 
   return (
-    <main style={{ background: 'var(--bg)', minHeight: '100vh' }}>
+    <main style={{ background: 'var(--bg)', minHeight: '100vh', cursor: 'none' }}>
+      {/* Grain SVG filter */}
+      <svg width="0" height="0" style={{ position: 'absolute' }}>
+        <defs>
+          <filter id="grain">
+            <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" />
+            <feColorMatrix type="saturate" values="0" />
+            <feBlend in="SourceGraphic" mode="multiply" />
+          </filter>
+        </defs>
+      </svg>
+
+      <CustomCursor />
+      <ScrollProgress />
 
       {/* ─── HERO ─── */}
       <section
@@ -389,7 +496,20 @@ export default function Menu() {
           overflow: 'hidden',
         }}
       >
-        {/* Subtle decorative number watermark */}
+        {/* Grain overlay */}
+        <div
+          aria-hidden="true"
+          style={{
+            position: 'absolute',
+            inset: 0,
+            filter: 'url(#grain)',
+            opacity: 0.04,
+            pointerEvents: 'none',
+            zIndex: 1,
+          }}
+        />
+
+        {/* Decorative watermark */}
         <span
           aria-hidden="true"
           style={{
@@ -406,6 +526,7 @@ export default function Menu() {
             userSelect: 'none',
             pointerEvents: 'none',
             letterSpacing: '-0.04em',
+            zIndex: 0,
           }}
         >
           M
@@ -414,7 +535,8 @@ export default function Menu() {
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
+          style={{ position: 'relative', zIndex: 2 }}
         >
           <p
             style={{
@@ -468,6 +590,7 @@ export default function Menu() {
           <MenuSection
             key={section.id}
             {...section}
+            index={i}
             isLast={i === SECTIONS.length - 1}
           />
         ))}
@@ -505,6 +628,7 @@ export default function Menu() {
             fontSize: '0.8rem',
             color: 'var(--muted)',
             letterSpacing: '0.1em',
+            cursor: 'none',
           }}
         >
           Back to home
